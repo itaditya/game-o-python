@@ -26,7 +26,7 @@ def game():
     # Load assets
 
     player = pygame.image.load("resources/images/dude2.png")
-    grass = pygame.image.load("resources/images/tileSand1.png")
+    grass = pygame.image.load("resources/images/grass.png")
 
     arrow = pygame.image.load("resources/images/bullet.png")
     badguyimg1 = pygame.image.load("resources/images/badguy.png")
@@ -191,10 +191,10 @@ def game():
 game()
 while 1:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit(0)
         if event.type == pygame.KEYDOWN:
             if event.key == K_SPACE:
                 game()
+            if event.key == pygame.K_q:
+                pygame.quit()
+                exit(0)
     pygame.display.flip()
