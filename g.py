@@ -20,8 +20,8 @@ score = 0
 pygame.mixer.init()
 
 # 3 - Load image
-player = pygame.image.load("resources/images/dude.png")
-grass = pygame.image.load("resources/images/grass.png")
+player = pygame.image.load("resources/images/dude2.png")
+grass = pygame.image.load("resources/images/tileSand1.png")
 
 arrow = pygame.image.load("resources/images/bullet.png")
 badguyimg1 = pygame.image.load("resources/images/badguy.png")
@@ -138,6 +138,9 @@ while running:
                 keys[2]=True
             elif event.key==K_d:
                 keys[3]=True
+            elif event.key==K_q:
+                pygame.quit()
+
         if event.type == pygame.KEYUP:
             if event.key==pygame.K_w:
                 keys[0]=False
