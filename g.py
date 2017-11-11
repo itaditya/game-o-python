@@ -1,10 +1,10 @@
-# 1 - Import library
+# Import packages
 import pygame
 from pygame.locals import *
 import math
 import random
 
-# 2 - Initialize the game
+# Initialize the game
 pygame.init()
 width, height = 640, 480
 screen=pygame.display.set_mode((width, height))
@@ -19,7 +19,7 @@ healthvalue=194
 score = 0
 pygame.mixer.init()
 
-# 3 - Load image
+# Load assets
 player = pygame.image.load("resources/images/dude.png")
 grass = pygame.image.load("resources/images/grass.png")
 
@@ -41,14 +41,14 @@ pygame.mixer.music.load('resources/audio/moonlight.wav')
 pygame.mixer.music.play(-1, 0.0)
 pygame.mixer.music.set_volume(0.25)
 
-# 4 - keep looping through
+# keep looping through
 running = 1
 exitcode = 0
 while running:
     badtimer-=1
-    # 5 - clear the screen before drawing it again
+    # clear the screen before drawing it again
     screen.fill(0)
-    # 6 - draw the player on the screen
+    # draw the player on the screen
     for x in range(width/grass.get_width()+1):
         for y in range(height/grass.get_height()+1):
             screen.blit(grass,(x*100,y*100))
@@ -71,7 +71,7 @@ while running:
         for projectile in arrows:
             arrow1 = pygame.transform.rotate(arrow, 360-projectile[0]*57.29)
             screen.blit(arrow1, (projectile[1], projectile[2]))
-    # 6.3 - Draw badgers
+    # Draw badgers
     if badtimer==0:
         badguys.append([random.randint(200,640), random.randint(50,430)])
         badtimer=100-(badtimer1*2)
@@ -84,17 +84,15 @@ while running:
         if badguy[0]<-64:
             badguys.pop(index)
         badguy[0]-=7
-        # print badguy
-        # 6.3.1 - Attack player
+        # Attack player
         badrect=pygame.Rect(badguyimg.get_rect())
-        print player
         badrect.top=badguy[1]
         badrect.left=badguy[0]
-        if badrect.left<64:
+        if (badrect.left <= playerpos[0]+50 and badrect.left >= playerpos[0]-50 and badrect.top <= playerpos[1]+50 and badrect.top >= playerpos[1]-50):
             hit.play()
             healthvalue -= random.randint(5,20)
             badguys.pop(index)
-        #6.3.2 - Check for collisions
+        # Check for collisions
         index1=0
         for bullet in arrows:
             bullrect=pygame.Rect(arrow.get_rect())
@@ -103,27 +101,30 @@ while running:
             if badrect.colliderect(bullrect):
                 enemy.play()
                 acc[0]+=1
-                badguys.pop(index)
+                try:
+                    badguys.pop(index)
+                except:
+                    pass
                 arrows.pop(index1)
                 score+=1
             index1+=1
-        # 6.3.3 - Next bad guy
+        # Next bad guy
         index+=1
     for badguy in badguys:
         screen.blit(badguyimg, badguy)
-    # 6.4 - Show Score
+    # Show Score
     font = pygame.font.Font(None, 24)
     scoretext = font.render(str(score), True, (0,0,0))
     textRect = scoretext.get_rect()
     textRect.topright=[635,5]
     screen.blit(scoretext, textRect)
-    # 6.5 - Draw health bar
+    # Draw health bar
     screen.blit(healthbar, (5,5))
     for health1 in range(healthvalue):
         screen.blit(health, (health1+8,8))
-    # 7 - update the screen
+    # update the screen
     pygame.display.flip()
-    # 8 - loop through the events
+    # loop through the events
     for event in pygame.event.get():
         # check if the event is the X button
         if event.type==pygame.QUIT:
@@ -139,6 +140,8 @@ while running:
                 keys[2]=True
             elif event.key==K_d:
                 keys[3]=True
+            elif event.key == K_SPACE:
+                pygame.init()
         if event.type == pygame.KEYUP:
             if event.key==pygame.K_w:
                 keys[0]=False
