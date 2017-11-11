@@ -7,7 +7,7 @@ import random
 # 2 - Initialize the game
 pygame.init()
 width, height = 640, 480
-screen=pygame.display.set_mode((width, height))
+screen=pygame.display.set_mode((width, height), pygame.FULLSCREEN)
 keys = [False, False, False, False]
 playerpos=[50,400]
 acc=[0,0]
