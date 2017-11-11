@@ -87,7 +87,6 @@ while running:
         # print badguy
         # 6.3.1 - Attack player
         badrect=pygame.Rect(badguyimg.get_rect())
-        print player
         badrect.top=badguy[1]
         badrect.left=badguy[0]
         if badrect.left<64:
