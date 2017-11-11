@@ -16,6 +16,7 @@ badtimer=100
 badtimer1=0
 badguys=[[640,100]]
 healthvalue=194
+score = 0
 pygame.mixer.init()
 
 # 3 - Load image
@@ -84,8 +85,9 @@ while running:
             badguys.pop(index)
         badguy[0]-=7
         # print badguy
-        # 6.3.1 - Attack castle
+        # 6.3.1 - Attack player
         badrect=pygame.Rect(badguyimg.get_rect())
+        print player
         badrect.top=badguy[1]
         badrect.left=badguy[0]
         if badrect.left<64:
@@ -103,17 +105,18 @@ while running:
                 acc[0]+=1
                 badguys.pop(index)
                 arrows.pop(index1)
+                score+=1
             index1+=1
         # 6.3.3 - Next bad guy
         index+=1
     for badguy in badguys:
         screen.blit(badguyimg, badguy)
-    # 6.4 - Draw clock
+    # 6.4 - Show Score
     font = pygame.font.Font(None, 24)
-    survivedtext = font.render(str((90000-pygame.time.get_ticks())/60000)+":"+str((90000-pygame.time.get_ticks())/1000%60).zfill(2), True, (0,0,0))
-    textRect = survivedtext.get_rect()
+    scoretext = font.render(str(score), True, (0,0,0))
+    textRect = scoretext.get_rect()
     textRect.topright=[635,5]
-    screen.blit(survivedtext, textRect)
+    screen.blit(scoretext, textRect)
     # 6.5 - Draw health bar
     screen.blit(healthbar, (5,5))
     for health1 in range(healthvalue):
@@ -176,7 +179,7 @@ while running:
 if exitcode==0:
     pygame.font.init()
     font = pygame.font.Font(None, 24)
-    text = font.render("Accuracy: "+str(accuracy)+"%", True, (255,0,0))
+    text = font.render("Score: "+str(score), True, (255,0,0))
     textRect = text.get_rect()
     textRect.centerx = screen.get_rect().centerx
     textRect.centery = screen.get_rect().centery+24
@@ -185,7 +188,7 @@ if exitcode==0:
 else:
     pygame.font.init()
     font = pygame.font.Font(None, 24)
-    text = font.render("Accuracy: "+str(accuracy)+"%", True, (0,255,0))
+    text = font.render("Score: "+str(score), True, (0,255,0))
     textRect = text.get_rect()
     textRect.centerx = screen.get_rect().centerx
     textRect.centery = screen.get_rect().centery+24
